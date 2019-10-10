@@ -30,8 +30,9 @@ alphabet = {
     "_": 26,
 }
 
-# encrypts given text with given key using Vigenere's cipher
+
 def encrypt(text, key):
+    """Encrypts given text with given key using Vigenere's cipher """
     encrypted_text = ""
     # lowercase our text and remove whitespaces
     text = text.lower().replace(" ", "")
@@ -53,6 +54,7 @@ def encrypt(text, key):
 
 
 def decrypt(text, key):
+    """ Decrypts given text that was encrypted with given key using Vigenere's cipher """
     decrypted_text = ""
     return decrypted_text
 
@@ -62,21 +64,102 @@ while not exit_program:
         """
     Welcome to Vingenere cipher program
     MENU:
-        1. Encrypt message
-        2. Decrypt message
-        3. Exit
+        1. Encrypt message via terminal
+        2. Decrypt message via terminal
+        3. Encrypt message from file
+        4. Decrypt message from file
+        5. Exit
     """
     )
     answer = input("Choose option: ")
     if answer == "1":
         text = input("Enter the message you want to encrypt: ")
         key = input("Now enter the key you want to use: ")
-        print("Encrypted message: " + encrypt(text, key) + "\n")
+        encrypted_message = encrypt(text, key)
+        print("Encrypted message: " + encrypted_message + "\n")
+        saveornottosave = input(
+            "Do you want to save your message and key to file? Yes/No: ")
+        saveornottosave = saveornottosave.lower()
+        if saveornottosave == "yes" or saveornottosave == "y":
+            filename = input("How to name your file? ")
+            try:
+                f = open(filename+".txt", "x")  # creates file under given name
+                f.write(encrypted_message + "\n" + key)
+                f.close()
+            except:
+                print("Error occured")
+            else:
+                print("File successfully created under '" + filename + "' name")
+        else:
+            continue
     elif answer == "2":
         text = input("Enter the message you want to decrypt: ")
         key = input("Now enter the key that was used to encrypt the message: ")
-        print("Decrypted message: " + decrypt(text, key) + "\n")
+        decrypted_message = decrypt(text, key)
+        print("Decrypted message: " + decrypted_message + "\n")
+        saveornottosave = input(
+            "Do you want to save your decrypted message and key to file? Yes/No: ")
+        saveornottosave = saveornottosave.lower()
+        if saveornottosave == "yes" or saveornottosave == "y":
+            filename = input("How to name your file? ")
+            try:
+                f = open(filename+".txt", "x")  # creates file under given name
+                f.write(decrypted_message + "\n" + key)
+                f.close()
+            except:
+                print("Error occured")
+            else:
+                print("File successfully created under '" + filename + "' name")
+        else:
+            continue
     elif answer == "3":
+        fname = input(
+            "Enter the name of file which contains message and key: ")
+        f = open(fname + ".txt")
+        text = f.readline()
+        key = f.readline()
+        encrypted_message = encrypt(text, key)
+        print("Encrypted message: " + encrypted_message + "\n")
+        saveornottosave = input(
+            "Do you want to save your encrypted message and key to file? Yes/No: ")
+        saveornottosave = saveornottosave.lower()
+        if saveornottosave == "yes" or saveornottosave == "y":
+            filename = input("How to name your file? ")
+            try:
+                f = open(filename+".txt", "x")  # creates file under given name
+                f.write(encrypted_message + "\n" + key)
+                f.close()
+            except:
+                print("Error occured")
+            else:
+                print("File successfully created under '" + filename + "' name")
+        else:
+            continue
+    elif answer == "4":
+        fname = input(
+            "Enter the name of file which contains encrypted message and key: ")
+        f = open(fname + ".txt")
+        text = f.readline()
+        key = f.readline()
+        decrypted_message = decrypt(text, key)
+        print("Decrypted message: " + decrypted_message + "\n")
+        saveornottosave = input(
+            "Do you want to save your decrypted message and key to file? Yes/No: ")
+        saveornottosave = saveornottosave.lower()
+        if saveornottosave == "yes" or saveornottosave == "y":
+            filename = input("How to name your file? ")
+            try:
+                f = open(filename+".txt", "x")  # creates file under given name
+                f.write(decrypted_message + "\n" + key)
+                f.close()
+            except:
+                print("Error occured")
+            else:
+                print("File successfully created under '" + filename + "' name")
+        else:
+            continue
+    elif answer == "5":
         exit_program = True
     else:
-        answer = input("Error, please choose your option again: ")
+        print("Error, please choose your option again")
+        continue
