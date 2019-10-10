@@ -17,10 +17,10 @@ alphabet = {
     "n": 13,
     "o": 14,
     "p": 15,
-    "r": 16,
-    "s": 17,
-    "t": 18,
-    "q": 19,
+    "q": 16,
+    "r": 17,
+    "s": 18,
+    "t": 19,
     "u": 20,
     "v": 21,
     "w": 22,
@@ -34,10 +34,8 @@ alphabet = {
 def encrypt(text, key):
     encrypted_text = ""
     # lowercase our text and remove whitespaces
-    text.lower()
-    text.replace(" ", "")
-    key.lower()
-    key.replace(" ", "")
+    text = text.lower().replace(" ", "")
+    key = key.lower().replace(" ", "")
     # encrypting whole text using Vigenere's cipher
     for el in range(len(text)):
         text_number = alphabet[text[el]]  # number assigned to specified letter
@@ -47,9 +45,9 @@ def encrypt(text, key):
         encrypted_number = (
             text_number + key_number
         ) % 27  # finding number of new letter that will replace the original letter
-        for alphabetkey, alphabetvalue in alphabet:
+        for alphabetkey, alphabetvalue in alphabet.items():
             if alphabetvalue == encrypted_number:
-                encrypted_text.join(alphabetkey)
+                encrypted_text += alphabetkey
 
     return encrypted_text
 
