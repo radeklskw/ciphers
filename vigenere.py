@@ -35,8 +35,8 @@ def encrypt(text, key):
     """Encrypts given text with given key using Vigenere's cipher """
     encrypted_text = ""
     # lowercase our text and remove whitespaces
-    text = text.lower().replace(" ", "")
-    key = key.lower().replace(" ", "")
+    text = text.lower().replace(" ", "").replace("\n", "")
+    key = key.lower().replace(" ", "").replace("\n", "")
     # encrypting whole text using Vigenere's cipher
     for el in range(len(text)):
         text_number = alphabet[text[el]]  # number assigned to specified letter
@@ -56,6 +56,24 @@ def encrypt(text, key):
 def decrypt(text, key):
     """ Decrypts given text that was encrypted with given key using Vigenere's cipher """
     decrypted_text = ""
+    # lowercase and remove whitespaces in encrypted text and key
+    text = text.lower().replace(" ", "").replace("\n", "")
+    key = key.lower().replace(" ", "").replace("\n", "")
+    for i in range(len(text)):
+        text_number = alphabet[text[i]]  # index of encrypted text letter
+        key_number = alphabet[key[i % len(key)]]  # index of key letter
+        if text_number >= key_number:
+            decrypted_number = text_number - key_number  # index of decrypted letter
+            for alphakey, alphavalue in alphabet.items():
+                if alphavalue == decrypted_number:
+                    decrypted_text += alphakey  # writing decrypted letter into decrypted text
+        else:
+            # index of decrypted letter if index of key letter is greater than index of encrypted text
+            decrypted_number = (27 - abs(text_number - key_number)) % 27
+            for alphakey, alphavalue in alphabet.items():
+                if alphavalue == decrypted_number:
+                    decrypted_text += alphakey  # writing decrypted letter into decrypted text
+
     return decrypted_text
 
 
@@ -118,6 +136,7 @@ while not exit_program:
         f = open(fname + ".txt")
         text = f.readline()
         key = f.readline()
+        f.close()
         encrypted_message = encrypt(text, key)
         print("Encrypted message: " + encrypted_message + "\n")
         saveornottosave = input(
@@ -141,6 +160,7 @@ while not exit_program:
         f = open(fname + ".txt")
         text = f.readline()
         key = f.readline()
+        f.close()
         decrypted_message = decrypt(text, key)
         print("Decrypted message: " + decrypted_message + "\n")
         saveornottosave = input(
